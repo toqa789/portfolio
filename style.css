@@ -7,12 +7,12 @@
 :root{
 
     /* Main palette */
-    --bg:#102A20;
-    --bg2:#173D2D;
+    --bg:#E7DDCC;
+    --bg2:#DCD0BC;
 
-    /* Cards / glass */
-    --card:rgba(232,226,210,.065);
-    --border:rgba(232,226,210,.12);
+    /* Cards */
+    --card:rgba(255,255,255,.42);
+    --border:rgba(55,76,61,.16);
 
     /* Greens */
     --primary:#285A42;
@@ -26,13 +26,12 @@
     --brown-soft:#98775C;
 
     /* Text */
-    --cream:#F3EBDD;
-    --text:#F3EBDD;
-    --text2:#C7D0C8;
-    --muted:#AAB8AE;
+    --cream:#F5EFE4;
+    --text:#26382D;
+    --text2:#46554B;
+    --muted:#68766C;
 
-    --shadow:0 15px 40px rgba(0,0,0,.38);
-
+    --shadow:0 15px 40px rgba(45,55,47,.16);
 }
 
 
@@ -51,31 +50,24 @@ html{
 }
 
 body{
-
     font-family:'Poppins',sans-serif;
 
     background:
-
-    radial-gradient(
-        circle at top left,
-        rgba(40,90,66,.65) 0%,
-        transparent 32%
-    ),
-
-    radial-gradient(
-        circle at bottom right,
-        rgba(74,52,40,.42) 0%,
-        transparent 30%
-    ),
-
-    var(--bg);
+        radial-gradient(
+            circle at top left,
+            rgba(40,90,66,.10) 0%,
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at bottom right,
+            rgba(114,87,67,.10) 0%,
+            transparent 30%
+        ),
+        var(--bg);
 
     color:var(--text);
-
     overflow-x:hidden;
-
     line-height:1.7;
-
 }
 
 a{
@@ -138,21 +130,18 @@ section{
 ==========================================*/
 
 header{
-
     position:fixed;
-
     width:100%;
-
     top:0;
-
     z-index:1000;
-
     backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
 
-    background:rgba(12,34,25,.82);
+    background:rgba(28,55,41,.94);
 
-    border-bottom:1px solid rgba(243,235,221,.08);
+    border-bottom:1px solid rgba(243,235,221,.12);
 
+    box-shadow:0 4px 20px rgba(30,45,36,.12);
 }
 
 .navbar{
