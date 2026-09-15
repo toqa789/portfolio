@@ -146,11 +146,11 @@ const words=[
 
 "Computer Science Student",
 
-"Machine Learning Enthusiast",
+"AI & Machine Learning Enthusiast",
 
-"AI Developer",
+"Data Science Enthusiast",
 
-"Embedded Systems Enthusiast"
+"AI Developer"
 
 ];
 
