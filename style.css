@@ -284,17 +284,13 @@ header{
 }
 
 .secondary{
-
-    border:1px solid rgba(255,255,255,.15);
-
-    background:rgba(255,255,255,.04);
-
+    background:linear-gradient(135deg,#7c3aed,#2563eb);
+    border:1px solid transparent;
 }
 
 .secondary:hover{
-
-    background:rgba(255,255,255,.08);
-
+    transform:translateY(-5px);
+    box-shadow:0 15px 35px rgba(124,58,237,.4);
 }
 
 .socials{
