@@ -1,15 +1,13 @@
-
-Script · JS
 /* ==========================================
         TOQA TAWFIK PORTFOLIO — script.js
 ==========================================*/
- 
+
 // Navbar: solid background after scrolling
 const header = document.querySelector("header");
 const onScroll = () => header.classList.toggle("scrolled", window.scrollY > 60);
 window.addEventListener("scroll", onScroll);
 onScroll();
- 
+
 // Mobile menu button (created here, no HTML change needed)
 const navLinksEl = document.querySelector(".nav-links");
 const menuBtn = document.createElement("button");
@@ -27,7 +25,7 @@ navLinksEl.querySelectorAll("a").forEach(a =>
         menuBtn.innerHTML = '<i class="bi bi-list"></i>';
     })
 );
- 
+
 // Reveal cards on scroll
 const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
@@ -37,14 +35,14 @@ const observer = new IntersectionObserver(entries => {
         }
     });
 }, { threshold: 0.12 });
- 
+
 document
     .querySelectorAll(".project-card,.skill-card,.timeline-item,.certificate-card,.contact-grid a")
     .forEach(item => {
         item.classList.add("hidden");
         observer.observe(item);
     });
- 
+
 // Active navigation link
 const sections = document.querySelectorAll("section[id]");
 const navLinks = document.querySelectorAll(".nav-links a");
@@ -57,7 +55,7 @@ window.addEventListener("scroll", () => {
         l.classList.toggle("active", l.getAttribute("href") === "#" + current)
     );
 });
- 
+
 // Soft mint spotlight following the cursor on project cards
 document.querySelectorAll(".project-card").forEach(card => {
     card.addEventListener("mousemove", e => {
@@ -66,17 +64,17 @@ document.querySelectorAll(".project-card").forEach(card => {
         card.style.setProperty("--my", `${e.clientY - r.top}px`);
     });
 });
- 
+
 // Typing effect
 const title = document.querySelector(".hero h2");
 const words = [
     "Computer Science Student",
     "AI & Machine Learning Enthusiast",
     "Data Science Enthusiast",
-    "AI Developer"
+    "Python & C++ Developer"
 ];
 let wordIndex = 0, charIndex = 0, deleting = false;
- 
+
 function type() {
     const current = words[wordIndex];
     if (!deleting) {
@@ -94,15 +92,10 @@ function type() {
     }
     setTimeout(type, deleting ? 45 : 90);
 }
-if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-    title.textContent = words[0];
-} else {
-    type();
-}
- 
+type();
+
 // Footer year
 document.querySelector("footer p:last-child").innerHTML =
     `© ${new Date().getFullYear()} Toqa Tawfik. All Rights Reserved.`;
- 
+
 console.log("%cWelcome to Toqa's Portfolio!", "color:#3E8A66;font-size:18px;font-weight:bold;");
- 
