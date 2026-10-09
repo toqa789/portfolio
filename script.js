@@ -1,265 +1,108 @@
+
+Script · JS
 /* ==========================================
-        TOQA TAWFIK PORTFOLIO
-              SCRIPT.JS
+        TOQA TAWFIK PORTFOLIO — script.js
 ==========================================*/
-
-// =========================
-// Navbar Scroll Effect
-// =========================
-
-const navbar = document.querySelector("header");
-
-window.addEventListener("scroll", () => {
-
-    if (window.scrollY > 60) {
-
-        navbar.style.background = "rgba(8,17,31,.92)";
-        navbar.style.boxShadow = "0 10px 30px rgba(0,0,0,.35)";
-
-    }
-
-    else {
-
-        navbar.style.background = "rgba(8,17,31,.45)";
-        navbar.style.boxShadow = "none";
-
-    }
-
+ 
+// Navbar: solid background after scrolling
+const header = document.querySelector("header");
+const onScroll = () => header.classList.toggle("scrolled", window.scrollY > 60);
+window.addEventListener("scroll", onScroll);
+onScroll();
+ 
+// Mobile menu button (created here, no HTML change needed)
+const navLinksEl = document.querySelector(".nav-links");
+const menuBtn = document.createElement("button");
+menuBtn.className = "menu-btn";
+menuBtn.setAttribute("aria-label", "Toggle menu");
+menuBtn.innerHTML = '<i class="bi bi-list"></i>';
+document.querySelector(".navbar").appendChild(menuBtn);
+menuBtn.addEventListener("click", () => {
+    const open = navLinksEl.classList.toggle("open");
+    menuBtn.innerHTML = `<i class="bi ${open ? "bi-x-lg" : "bi-list"}"></i>`;
 });
-
-
-// =========================
-// Reveal Sections
-// =========================
-
-const observer = new IntersectionObserver(
-
-(entries)=>{
-
-entries.forEach(entry=>{
-
-if(entry.isIntersecting){
-
-entry.target.classList.add("show");
-
-}
-
-});
-
-},
-
-{
-
-threshold:.15
-
-}
-
+navLinksEl.querySelectorAll("a").forEach(a =>
+    a.addEventListener("click", () => {
+        navLinksEl.classList.remove("open");
+        menuBtn.innerHTML = '<i class="bi bi-list"></i>';
+    })
 );
-
-document.querySelectorAll(".section,.project-card,.skill-card,.timeline-item,.certificate-card")
-.forEach(item=>{
-
-item.classList.add("hidden");
-
-observer.observe(item);
-
-});
-
-
-// =========================
-// Active Navigation
-// =========================
-
-const sections = document.querySelectorAll("section");
+ 
+// Reveal cards on scroll
+const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add("show");
+            observer.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.12 });
+ 
+document
+    .querySelectorAll(".project-card,.skill-card,.timeline-item,.certificate-card,.contact-grid a")
+    .forEach(item => {
+        item.classList.add("hidden");
+        observer.observe(item);
+    });
+ 
+// Active navigation link
+const sections = document.querySelectorAll("section[id]");
 const navLinks = document.querySelectorAll(".nav-links a");
-
-window.addEventListener("scroll",()=>{
-
-let current="";
-
-sections.forEach(section=>{
-
-const top=section.offsetTop-120;
-
-if(pageYOffset>=top){
-
-current=section.getAttribute("id");
-
-}
-
+window.addEventListener("scroll", () => {
+    let current = "";
+    sections.forEach(s => {
+        if (window.scrollY >= s.offsetTop - 140) current = s.id;
+    });
+    navLinks.forEach(l =>
+        l.classList.toggle("active", l.getAttribute("href") === "#" + current)
+    );
 });
-
-navLinks.forEach(link=>{
-
-link.classList.remove("active");
-
-if(link.getAttribute("href")==="#"+current){
-
-link.classList.add("active");
-
-}
-
+ 
+// Soft mint spotlight following the cursor on project cards
+document.querySelectorAll(".project-card").forEach(card => {
+    card.addEventListener("mousemove", e => {
+        const r = card.getBoundingClientRect();
+        card.style.setProperty("--mx", `${e.clientX - r.left}px`);
+        card.style.setProperty("--my", `${e.clientY - r.top}px`);
+    });
 });
-
-});
-
-
-// =========================
-// Smooth Hover Effect
-// =========================
-
-const cards=document.querySelectorAll(".project-card");
-
-cards.forEach(card=>{
-
-card.addEventListener("mousemove",(e)=>{
-
-const rect=card.getBoundingClientRect();
-
-const x=e.clientX-rect.left;
-
-const y=e.clientY-rect.top;
-
-card.style.background=
-`radial-gradient(circle at ${x}px ${y}px,
-rgba(124,58,237,.22),
-rgba(255,255,255,.05))`;
-
-});
-
-card.addEventListener("mouseleave",()=>{
-
-card.style.background="rgba(255,255,255,.06)";
-
-});
-
-});
-
-
-// =========================
-// Typing Effect
-// =========================
-
-const title=document.querySelector(".hero h2");
-
-const words=[
-
-"Computer Science Student",
-
-"AI & Machine Learning Enthusiast",
-
-"Data Science Enthusiast",
-
-"AI Developer"
-
+ 
+// Typing effect
+const title = document.querySelector(".hero h2");
+const words = [
+    "Computer Science Student",
+    "AI & Machine Learning Enthusiast",
+    "Data Science Enthusiast",
+    "AI Developer"
 ];
-
-let wordIndex=0;
-let charIndex=0;
-let deleting=false;
-
-function type(){
-
-const current=words[wordIndex];
-
-if(!deleting){
-
-title.textContent=current.substring(0,charIndex++);
-
-if(charIndex>current.length){
-
-deleting=true;
-
-setTimeout(type,1500);
-
-return;
-
+let wordIndex = 0, charIndex = 0, deleting = false;
+ 
+function type() {
+    const current = words[wordIndex];
+    if (!deleting) {
+        title.textContent = current.substring(0, ++charIndex);
+        if (charIndex === current.length) {
+            deleting = true;
+            return setTimeout(type, 1600);
+        }
+    } else {
+        title.textContent = current.substring(0, --charIndex);
+        if (charIndex === 0) {
+            deleting = false;
+            wordIndex = (wordIndex + 1) % words.length;
+        }
+    }
+    setTimeout(type, deleting ? 45 : 90);
 }
-
+if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    title.textContent = words[0];
+} else {
+    type();
 }
-
-else{
-
-title.textContent=current.substring(0,charIndex--);
-
-if(charIndex===0){
-
-deleting=false;
-
-wordIndex++;
-
-if(wordIndex>=words.length){
-
-wordIndex=0;
-
-}
-
-}
-
-}
-
-setTimeout(type,deleting?45:90);
-
-}
-
-type();
-
-
-// =========================
-// Hidden Animation
-// =========================
-
-const style=document.createElement("style");
-
-style.innerHTML=`
-
-.hidden{
-
-opacity:0;
-
-transform:translateY(40px);
-
-transition:all .8s ease;
-
-}
-
-.show{
-
-opacity:1;
-
-transform:translateY(0);
-
-}
-
-.active{
-
-color:#8b5cf6 !important;
-
-}
-
-`;
-
-document.head.appendChild(style);
-
-
-// =========================
-// Current Year
-// =========================
-
-const footer=document.querySelector("footer p:last-child");
-
-footer.innerHTML=`© ${new Date().getFullYear()} Toqa Tawfik. All Rights Reserved.`;
-
-
-// =========================
-// Console Message 😄
-// =========================
-
-console.log(
-"%cWelcome to Toqa's Portfolio!",
-"color:#8b5cf6;font-size:18px;font-weight:bold;"
-);
-
-console.log(
-"Built with HTML, CSS & JavaScript."
-);
+ 
+// Footer year
+document.querySelector("footer p:last-child").innerHTML =
+    `© ${new Date().getFullYear()} Toqa Tawfik. All Rights Reserved.`;
+ 
+console.log("%cWelcome to Toqa's Portfolio!", "color:#3E8A66;font-size:18px;font-weight:bold;");
+ 
